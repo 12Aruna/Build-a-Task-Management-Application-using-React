@@ -1,0 +1,58 @@
+import React, { useState } from 'react';
+
+const TaskManagementApp = () => {
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState('');
+
+  const handleAddTask = () => {
+    if (newTask.trim() !== '') {
+      setTasks([...tasks, newTask]);
+      setNewTask('');
+    }
+  };
+
+  const handleEditTask = (index, updatedTask) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index] = updatedTask;
+    setTasks(updatedTasks);
+  };
+
+  const handleDeleteTask = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks.splice(index, 1);
+    setTasks(updatedTasks);
+  };
+
+  const handleCompleteTask = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index] = `✓ ${updatedTasks[index]}`;
+    setTasks(updatedTasks);
+  };
+
+  return (
+    <div>
+      <h1>Task Management Application</h1>
+      <input
+        type="text"
+        value={newTask}
+        onChange={(e) => setNewTask(e.target.value)}
+      />
+      <button onClick={handleAddTask}>Add Task</button>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>
+            {task}
+            <button onClick={() => handleEditTask(index, prompt('Enter updated task:'))}>
+              Edit
+            </button>
+            <button onClick={() => handleDeleteTask(index)}>Delete</button>
+            <button onClick={() => handleCompleteTask(index)}>Complete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TaskManagementApp;
+
